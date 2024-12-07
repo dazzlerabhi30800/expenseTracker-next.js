@@ -41,10 +41,10 @@ const CreateBudget = () => {
   };
 
   return (
-    <div>
-      <Dialog>
-        <DialogTrigger>
-          <div className="flex gap-2 items-center font-semibold bg-slate-100 p-10 rounded-md flex-col border-2 border-dashed cursor-pointer hover:shadow-md transition-all">
+    <div className="w-full">
+      <Dialog className="flex w-full">
+        <DialogTrigger className="w-full">
+          <div className="flex w-full gap-2 items-center font-semibold bg-slate-100 p-10 rounded-md flex-col border-2 border-dashed cursor-pointer hover:shadow-md transition-all">
             <h2 className="text-3xl">+</h2>
             <h2 className="text-xl">Create Budget</h2>
           </div>
