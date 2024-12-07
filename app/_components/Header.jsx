@@ -10,7 +10,7 @@ const Header = () => {
   console.log(user);
   return (
     <div className="p-5 flex justify-between items-center border shadow-md">
-      <Image src="./logo.svg" width={160} height={100} alt="logo" />
+      <Image src={"/logo.svg"} width={160} height={100} alt="logo" />
       {isSignedIn ? (
         <UserButton />
       ) : (

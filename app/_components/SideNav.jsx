@@ -36,7 +36,7 @@ const SideNav = () => {
   ];
   return (
     <div className="h-screen p-5 border shadow-md">
-      <Image priority={true} src={"./logo.svg"} alt="logo" width={160} height={100} />
+      <Image src={"/logo.svg"} alt="logo" width={160} height={100} />
       <div className="mt-5">
         {menuList.map((item) => (
           <Link key={item.id} href={item.path}>
