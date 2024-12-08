@@ -18,7 +18,7 @@ import { budgetTable } from "@/configs/schema";
 import { useUser } from "@clerk/nextjs";
 import { toast } from "sonner";
 
-const CreateBudget = () => {
+const CreateBudget = ({ refreshData }) => {
   const [emoji, setEmoji] = useState("😊");
   const [openEmoji, setOpenEmoji] = useState(false);
   const [amount, setAmount] = useState();
@@ -36,6 +36,7 @@ const CreateBudget = () => {
       })
       .returning({ insertedId: budgetTable.id });
     if (result) {
+      refreshData();
       toast("New budget created!");
     }
   };
