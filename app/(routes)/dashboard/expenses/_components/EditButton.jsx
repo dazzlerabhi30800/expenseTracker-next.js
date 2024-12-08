@@ -1,5 +1,6 @@
-"use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { Button } from "@/components/ui/button";
+import { Pen } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -10,49 +11,54 @@ import {
   DialogFooter,
   DialogClose,
 } from "@/components/ui/dialog";
-import EmojiPicker from "emoji-picker-react";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import EmojiPicker from "emoji-picker-react";
 import { db } from "@/configs/db";
 import { budgetTable } from "@/configs/schema";
-import { useUser } from "@clerk/nextjs";
+import { eq } from "drizzle-orm";
 import { toast } from "sonner";
 
-const CreateBudget = ({ refreshData }) => {
-  const [emoji, setEmoji] = useState("😊");
+const EditButton = ({ budgetInfo, refreshData }) => {
+  const [emoji, setEmoji] = useState(budgetInfo?.icon);
   const [openEmoji, setOpenEmoji] = useState(false);
-  const [amount, setAmount] = useState();
-  const [name, setName] = useState();
-  const { user } = useUser();
+  const [name, setName] = useState(budgetInfo?.name);
+  const [amount, setAmount] = useState(budgetInfo?.amount);
 
-  const handleCreateBudget = async () => {
+  useEffect(() => {
+    if (!budgetInfo) return;
+    setName(budgetInfo?.name);
+    setAmount(budgetInfo?.amount);
+    setEmoji(budgetInfo?.icon);
+  }, [budgetInfo]);
+
+  // NOTE: function to change budget
+  const handleUpdateBudget = async () => {
     const result = await db
-      .insert(budgetTable)
-      .values({
+      .update(budgetTable)
+      .set({
         name: name,
         amount: amount,
         icon: emoji,
-        createdBy: user?.primaryEmailAddress?.emailAddress,
       })
-      .returning({ insertedId: budgetTable.id });
+      .where(eq(budgetTable.id, budgetInfo?.id))
+      .returning();
     if (result) {
+      toast("Budget updated");
       refreshData();
-      toast("New budget created!");
     }
   };
 
   return (
-    <div className="w-full">
+    <div>
       <Dialog className="flex w-full">
         <DialogTrigger className="w-full" asChild>
-          <div className="flex w-full gap-2 items-center font-semibold bg-slate-100 p-10 rounded-md flex-col border-2 border-dashed cursor-pointer hover:shadow-md transition-all">
-            <h2 className="text-3xl">+</h2>
-            <h2 className="text-xl">Create Budget</h2>
-          </div>
+          <Button className="flex gap-2">
+            <Pen /> Edit
+          </Button>
         </DialogTrigger>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Create New Budget</DialogTitle>
+            <DialogTitle>Update Budget</DialogTitle>
             <div>
               <Button
                 variant="outline"
@@ -71,16 +77,13 @@ const CreateBudget = ({ refreshData }) => {
               </div>
               <div className="mt-4">
                 <h2 className="text-black font-medium my-1">Budget Name</h2>
-                <Input
-                  onChange={(e) => setName(e.target.value)}
-                  placeholder="e.g. Home Decor"
-                />
+                <Input value={name} onChange={(e) => setName(e.target.value)} />
               </div>
               <div className="mt-4">
                 <h2 className="text-black font-medium my-1">Budget Amount</h2>
                 <Input
+                  value={amount}
                   type="number"
-                  placeholder="e.g. ₹5000"
                   onChange={(e) => setAmount(e.target.value)}
                 />
               </div>
@@ -90,11 +93,11 @@ const CreateBudget = ({ refreshData }) => {
           <DialogFooter className="sm:justify-start">
             <DialogClose asChild>
               <Button
-                onClick={handleCreateBudget}
+                onClick={handleUpdateBudget}
                 disabled={!(name && amount)}
                 className="mt-5 w-full"
               >
-                Create Budget
+                Update Budget
               </Button>
             </DialogClose>
           </DialogFooter>
@@ -104,4 +107,4 @@ const CreateBudget = ({ refreshData }) => {
   );
 };
 
-export default CreateBudget;
+export default EditButton;

@@ -9,7 +9,7 @@ import BudgetItem from "../../budgets/_components/BudgetItem";
 import AddExpense from "../_components/AddExpense";
 import ExpenseTable from "../_components/ExpenseTable";
 import { Button } from "@/components/ui/button";
-import { Trash } from "lucide-react";
+import { ArrowLeft, Pen, Trash } from "lucide-react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -23,6 +23,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import EditButton from "../_components/EditButton";
 
 const ExpenseScreen = () => {
   const { id } = useParams();
@@ -84,29 +85,38 @@ const ExpenseScreen = () => {
   return (
     <div className="p-10">
       <div className="flex items-center justify-between">
+        <ArrowLeft onClick={() => router.back()} />
         <h2 className="text-2xl font-bold mb-4">My Expenses</h2>
-        <AlertDialog>
-          <AlertDialogTrigger asChild>
-            <Button variant="destructive" className="flex gap-2 items-center">
-              <Trash size={30} strokeWidth={3} /> Delete
-            </Button>
-          </AlertDialogTrigger>
-          <AlertDialogContent>
-            <AlertDialogHeader>
-              <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-              <AlertDialogDescription>
-                This action cannot be undone. This will permanently delete your
-                expense data from your account.
-              </AlertDialogDescription>
-            </AlertDialogHeader>
-            <AlertDialogFooter>
-              <AlertDialogCancel>Cancel</AlertDialogCancel>
-              <AlertDialogAction onClick={deleteBudget}>
-                Continue
-              </AlertDialogAction>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialog>
+        {/* Delete Button  */}
+        <div className="flex gap-2">
+          <AlertDialog>
+            <AlertDialogTrigger asChild>
+              <Button variant="destructive" className="flex gap-2 items-center">
+                <Trash size={30} strokeWidth={3} /> Delete
+              </Button>
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                <AlertDialogDescription>
+                  This action cannot be undone. This will permanently delete
+                  your expense data from your account.
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                <AlertDialogAction onClick={deleteBudget}>
+                  Continue
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
+          <EditButton
+            budgetInfo={budgetInfo}
+            refreshData={() => getBudgetInfo()}
+          />
+        </div>
+        {/* Edit Button */}
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-7 mt-6">
         {budgetInfo ? (
