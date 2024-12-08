@@ -4,8 +4,9 @@ import { Button } from "@/components/ui/button";
 import { db } from "@/configs/db";
 import { budgetTable, expenseTable } from "@/configs/schema";
 import { toast } from "sonner";
+import moment from "moment";
 
-const AddExpense = ({ id, user, refreshData }) => {
+const AddExpense = ({ id,  refreshData }) => {
   const [name, setName] = useState();
   const [amount, setAmount] = useState();
 
@@ -16,7 +17,7 @@ const AddExpense = ({ id, user, refreshData }) => {
         name: name,
         amount: amount,
         budgetId: id,
-        createdAt: user?.primaryEmailAddress?.emailAddress,
+        createdAt: moment().format("DD/MM/yyy"),
       })
       .returning({ insertedId: budgetTable.id });
 
