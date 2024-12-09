@@ -17,9 +17,9 @@ export default function RootLayout({ children }) {
         <body className={`${outfit.className} antialiased`}>
           <Toaster />
           {children}
-          {/* <SignedOut> */}
-          {/*   <RedirectToSignIn signInForceRedirectUrl="/" /> */}
-          {/* </SignedOut> */}
+          <SignedOut>
+            <RedirectToSignIn signInFallbackRedirectUrl="/" />
+          </SignedOut>
         </body>
       </html>
     </ClerkProvider>
