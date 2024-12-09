@@ -6,3 +6,4 @@ export const formatPrice = (price) => {
 export const percentWidth = (totalAmount, totalSpent) => {
   return ((totalSpent / totalAmount) * 100).toFixed(2);
 };
+
