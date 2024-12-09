@@ -1,5 +1,6 @@
-'use client';
-import { UserButton } from "@clerk/nextjs";
+"use client";
+import { Button } from "@/components/ui/button";
+import { SignOutButton, useUser } from "@clerk/nextjs";
 import { LayoutGrid, PiggyBank, ReceiptText, ShieldCheck } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -8,6 +9,7 @@ import React from "react";
 
 const SideNav = () => {
   const path = usePathname();
+  const { user } = useUser();
   const menuList = [
     {
       id: 1,
@@ -48,9 +50,15 @@ const SideNav = () => {
           </Link>
         ))}
       </div>
-      <div className="fixed bottom-10 flex items-center gap-2 px-5">
-        <UserButton />
-        Profile
+      <div className="fixed bottom-10 flex flex-col items-center gap-4 px-10">
+        <SignOutButton redirectUrl="/">
+          <Button className="bg-primary">Logout</Button>
+        </SignOutButton>
+        <img
+          src={user?.imageUrl}
+          alt={user?.fullName}
+          className="w-9 h-9 rounded-[50%] hidden sm:block"
+        />
       </div>
     </div>
   );
