@@ -17,9 +17,9 @@ export default function RootLayout({ children }) {
         <body className={`${outfit.className} antialiased`}>
           <Toaster />
           {children}
-          <SignedOut>
-            <RedirectToSignIn />
-          </SignedOut>
+          {/* <SignedOut> */}
+          {/*   <RedirectToSignIn /> */}
+          {/* </SignedOut> */}
         </body>
       </html>
     </ClerkProvider>
