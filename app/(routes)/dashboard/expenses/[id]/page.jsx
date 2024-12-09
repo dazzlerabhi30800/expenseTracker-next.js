@@ -85,8 +85,10 @@ const ExpenseScreen = () => {
   return (
     <div className="p-10">
       <div className="flex items-center justify-between">
-        <ArrowLeft onClick={() => router.back()} />
-        <h2 className="text-2xl font-bold mb-4">My Expenses</h2>
+        <div className="flex items-center gap-2 mb-4">
+          <ArrowLeft className="cursor-pointer" onClick={() => router.back()} />
+          <h2 className="text-2xl font-bold">My Expenses</h2>
+        </div>
         {/* Delete Button  */}
         <div className="flex gap-2">
           <AlertDialog>
@@ -127,7 +129,6 @@ const ExpenseScreen = () => {
         <AddExpense id={id} refreshData={() => getBudgetInfo()} />
       </div>
       <div className="mt-5">
-        <h2 className="font-bold text-lg">Latest Expenses</h2>
         <ExpenseTable
           expenseList={expenseList}
           refreshData={() => getBudgetInfo()}
