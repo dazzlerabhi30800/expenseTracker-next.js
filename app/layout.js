@@ -1,6 +1,6 @@
 import "./globals.css";
 import { Outfit } from "next/font/google";
-import { ClerkProvider } from "@clerk/nextjs";
+import { ClerkProvider, RedirectToSignIn, SignedOut } from "@clerk/nextjs";
 import { Toaster } from "@/components/ui/sonner";
 
 const outfit = Outfit({ subsets: ["latin"] });
@@ -17,6 +17,9 @@ export default function RootLayout({ children }) {
         <body className={`${outfit.className} antialiased`}>
           <Toaster />
           {children}
+          <SignedOut>
+            <RedirectToSignIn />
+          </SignedOut>
         </body>
       </html>
     </ClerkProvider>
