@@ -1,5 +1,5 @@
 # Expense Tracker in Next.js
-This app helps you keep track of your expeneses based on the budget you set.
+This app helps you keep track of your expenses based on the budget you set.
 
 ## Tech Stack
 
